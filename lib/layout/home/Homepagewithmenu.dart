@@ -29,13 +29,7 @@ Widget build(BuildContext context) {
        currentIndex: _currentIndex,
         selectedItemColor: Colors.cyan,
        unselectedItemColor: Colors.redAccent,
-       onTap: (int index) {
-         setState(() {
-            _currentIndex = index;
-        });
-      },
-
-      items: [
+       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.grid_3x3),
           label: 'GridView'
@@ -49,6 +43,12 @@ Widget build(BuildContext context) {
           label: 'Post Data',
         ),
        ],
+
+      onTap: (int index) {
+         setState(() {
+            _currentIndex = index;
+        });
+      },
        ),
          );
     }

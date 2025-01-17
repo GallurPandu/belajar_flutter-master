@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pemrograman_mobile/layout/model/Getnews.dart';
-
 import 'Detailnewspage.dart';
 
 class Newscard extends StatelessWidget {

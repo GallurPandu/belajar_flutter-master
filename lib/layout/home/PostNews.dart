@@ -7,15 +7,15 @@ import '../model/Albums.dart';
 
 class Postnews extends StatefulWidget {
   const Postnews({super.key});
-  
-  @override 
+
+  @override
   State<Postnews> createState() {
     return _PostnewsState();
   }
 }
 
 class _PostnewsState extends State<Postnews> {
-  
+
   Future<Album> createAlbum(String title) async {
     final response = await http.post(
       Uri.parse('https://jsonplaceholder.typicode.com/albums'),
@@ -24,16 +24,15 @@ class _PostnewsState extends State<Postnews> {
       },
       body: jsonEncode(<String, String>{
         'title': title,
-    }),
+      }),
     );
-    
+
     if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON
+      // Jika server mengembalikan respons 201 CREATED
       return Album.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception
+      // Jika status bukan 201, lempar pengecualian
+      throw Exception('Failed to create album');
     }
   }
 
@@ -60,7 +59,7 @@ class _PostnewsState extends State<Postnews> {
     );
   }
 
-
+  // Fungsi untuk menampilkan kolom input dan tombol
   Column buildColumn() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -74,23 +73,27 @@ class _PostnewsState extends State<Postnews> {
             setState(() {
               _futureAlbum = createAlbum(_controller.text);
             });
-          }, child: null,
+          },
+          child: const Text('Create Album'), // Tambahkan teks pada tombol
         ),
       ],
     );
   }
-    Future<FutureBuilder<Album>> buildFutureBuilder() async {
-      return FutureBuilder<Album>(
-        future: _futureAlbum,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Text(snapshot.data!.title);
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return const CircularProgressIndicator();
-        },
-      );
-    }
 
+  // Fungsi untuk menangani FutureBuilder dan menampilkan status
+  Widget buildFutureBuilder() {
+    return FutureBuilder<Album>(
+      future: _futureAlbum,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator(); // Menunggu respons
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}'); // Menampilkan error jika ada
+        } else if (snapshot.hasData) {
+          return Text('Album Created: ${snapshot.data!.title}'); // Menampilkan album
+        }
+        return const Text('No data available'); // Jika tidak ada data
+      },
+    );
   }
+}
