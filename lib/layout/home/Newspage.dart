@@ -35,7 +35,6 @@ class _NewspageState extends State<Newspage> {
   Future<void> initState() async {
     super.initState();
     futurePosts = fetchPosts();
-
   }
 
   @override
@@ -84,4 +83,3 @@ class _NewspageState extends State<Newspage> {
     );
   }
 }
-

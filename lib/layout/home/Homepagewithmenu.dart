@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pemrograman_mobile/layout/home/PostNews.dart';
 import 'ListsWithCards.dart';
 import 'GridViewLearning.dart';
 
@@ -14,6 +15,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _tabs = [
     GridViewLearning(),
     ListsWithCards(),
+    Postnews(),
 ];
 
 @override
@@ -25,6 +27,8 @@ Widget build(BuildContext context) {
     body: _tabs[_currentIndex],
     bottomNavigationBar: BottomNavigationBar(
        currentIndex: _currentIndex,
+        selectedItemColor: Colors.cyan,
+       unselectedItemColor: Colors.redAccent,
        onTap: (int index) {
          setState(() {
             _currentIndex = index;
@@ -40,6 +44,10 @@ Widget build(BuildContext context) {
           icon: Icon(Icons.list),
           label: 'ListView',
          ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.list),
+          label: 'Post Data',
+        ),
        ],
        ),
          );
